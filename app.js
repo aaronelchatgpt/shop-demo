@@ -132,25 +132,31 @@ function viewProduct(id) {
     { cls: 'v5', label: '包装' },
   ];
   return `
-  <div class="gallery" id="gallery" onscroll="onGalleryScroll()">
-    ${slides.map((s, i) => `<div class="slide ${s.cls}"><div class="stage">${icon(p.kind)}</div><span class="vnum">${i + 1} / 5</span><span class="vlabel">${s.label}</span></div>`).join('')}
-  </div>
-  <div class="thumbs" id="thumbs">
-    ${slides.map((s, i) => `<button class="thumb-i ${i === 0 ? 'active' : ''}" onclick="goSlide(${i})">${icon(p.kind)}</button>`).join('')}
-  </div>
-  <h1 class="detail-name">${esc(p.name)}</h1>
-  <div class="detail-sub">${esc(p.cat)}${p.tag ? ' · ' + esc(p.tag) : ''}</div>
-  <div class="detail-price">${money(p.price)}</div>
-  <div class="card"><div class="detail-desc">${esc(p.desc)}</div></div>
-  <div class="card">
-    <div class="row muted"><span>送货</span><span>入户安装 · 满 2999 包邮</span></div>
-    <div class="row muted" style="margin-top:10px"><span>服务</span><span>7 天无理由 · 一年质保</span></div>
-  </div>
-  <div class="card"><div class="row"><span class="muted">数量</span>
-    <div class="qty"><button onclick="setDetailQty(-1)">−</button><span id="dqty">1</span><button onclick="setDetailQty(1)">+</button></div>
-  </div></div>
-  <button class="btn brand" onclick="addDetail()">加入购物袋</button>
-  <a class="btn ghost" style="margin-top:10px" href="#cart">查看购物袋</a>`;
+  <div class="detail-layout">
+    <div class="detail-media">
+      <div class="gallery" id="gallery" onscroll="onGalleryScroll()">
+        ${slides.map((s, i) => `<div class="slide ${s.cls}"><div class="stage">${icon(p.kind)}</div><span class="vnum">${i + 1} / 5</span><span class="vlabel">${s.label}</span></div>`).join('')}
+      </div>
+      <div class="thumbs" id="thumbs">
+        ${slides.map((s, i) => `<button class="thumb-i ${i === 0 ? 'active' : ''}" onclick="goSlide(${i})">${icon(p.kind)}</button>`).join('')}
+      </div>
+    </div>
+    <div class="detail-info">
+      <h1 class="detail-name">${esc(p.name)}</h1>
+      <div class="detail-sub">${esc(p.cat)}${p.tag ? ' · ' + esc(p.tag) : ''}</div>
+      <div class="detail-price">${money(p.price)}</div>
+      <div class="card"><div class="detail-desc">${esc(p.desc)}</div></div>
+      <div class="card">
+        <div class="row muted"><span>送货</span><span>入户安装 · 满 2999 包邮</span></div>
+        <div class="row muted" style="margin-top:10px"><span>服务</span><span>7 天无理由 · 一年质保</span></div>
+      </div>
+      <div class="card"><div class="row"><span class="muted">数量</span>
+        <div class="qty"><button onclick="setDetailQty(-1)">−</button><span id="dqty">1</span><button onclick="setDetailQty(1)">+</button></div>
+      </div></div>
+      <button class="btn brand" onclick="addDetail()">加入购物袋</button>
+      <a class="btn ghost" style="margin-top:10px" href="#cart">查看购物袋</a>
+    </div>
+  </div>`;
 }
 
 function goSlide(i) {
@@ -327,7 +333,8 @@ function route() {
   else if (name === 'admin') html = viewAdmin();
   else html = viewHome();
   document.getElementById('view').innerHTML = html;
-  document.querySelectorAll('.tabbar a').forEach((a) => a.classList.toggle('active', a.dataset.tab === name));
+  document.body.dataset.view = name;
+  document.querySelectorAll('.tabbar a, .topnav a').forEach((a) => a.classList.toggle('active', a.dataset.tab === name));
   syncBadge(); window.scrollTo(0, 0);
 }
 
