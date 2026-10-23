@@ -124,17 +124,45 @@ function viewHome() {
 function viewProduct(id) {
   const p = findP(id);
   if (!p) return `<div class="empty">商品不存在</div>`;
+  const slides = [
+    { cls: 'v1', label: '正面' },
+    { cls: 'v2', label: '细节' },
+    { cls: 'v3', label: '场景' },
+    { cls: 'v4', label: '侧面' },
+    { cls: 'v5', label: '包装' },
+  ];
   return `
-  <div class="detail-thumb">${icon(p.kind)}</div>
+  <div class="gallery" id="gallery" onscroll="onGalleryScroll()">
+    ${slides.map((s, i) => `<div class="slide ${s.cls}"><div class="stage">${icon(p.kind)}</div><span class="vnum">${i + 1} / 5</span><span class="vlabel">${s.label}</span></div>`).join('')}
+  </div>
+  <div class="thumbs" id="thumbs">
+    ${slides.map((s, i) => `<button class="thumb-i ${i === 0 ? 'active' : ''}" onclick="goSlide(${i})">${icon(p.kind)}</button>`).join('')}
+  </div>
   <h1 class="detail-name">${esc(p.name)}</h1>
   <div class="detail-sub">${esc(p.cat)}${p.tag ? ' · ' + esc(p.tag) : ''}</div>
   <div class="detail-price">${money(p.price)}</div>
   <div class="card"><div class="detail-desc">${esc(p.desc)}</div></div>
+  <div class="card">
+    <div class="row muted"><span>送货</span><span>入户安装 · 满 2999 包邮</span></div>
+    <div class="row muted" style="margin-top:10px"><span>服务</span><span>7 天无理由 · 一年质保</span></div>
+  </div>
   <div class="card"><div class="row"><span class="muted">数量</span>
     <div class="qty"><button onclick="setDetailQty(-1)">−</button><span id="dqty">1</span><button onclick="setDetailQty(1)">+</button></div>
   </div></div>
   <button class="btn brand" onclick="addDetail()">加入购物袋</button>
   <a class="btn ghost" style="margin-top:10px" href="#cart">查看购物袋</a>`;
+}
+
+function goSlide(i) {
+  const g = document.getElementById('gallery');
+  if (!g) return;
+  g.scrollTo({ left: i * g.clientWidth, behavior: 'smooth' });
+}
+function onGalleryScroll() {
+  const g = document.getElementById('gallery');
+  if (!g) return;
+  const idx = Math.round(g.scrollLeft / g.clientWidth);
+  document.querySelectorAll('#thumbs .thumb-i').forEach((b, i) => b.classList.toggle('active', i === idx));
 }
 
 function viewCart() {
