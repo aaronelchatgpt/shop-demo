@@ -3,25 +3,33 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>小铺优选 · 单商户商城</title>
+<title>栖 · 家居 | 家具与家居生活</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div id="app">
   <header class="topbar">
     <div class="brand">
-      <span class="logo">铺</span>
-      <div><div class="shop-name">小铺优选</div><div class="shop-sub">单商户 · 精选好物</div></div>
+      <span class="mark">栖</span>
+      <div><div class="shop-name">栖 · 家居</div><div class="shop-sub">FURNITURE &amp; HOME</div></div>
     </div>
-    <button class="cart-btn" id="cartBtn">🛒 <span class="badge" id="cartCount">0</span></button>
+    <button class="cart-btn" id="cartBtn" onclick="location.hash='#cart'">袋 <span class="badge" id="cartCount">0</span></button>
   </header>
+
+  <div class="searchwrap">
+    <div class="search">
+      <span class="sicon">⌕</span>
+      <input id="searchInput" placeholder="搜索家具、家居用品…" autocomplete="off">
+      <button class="sclear" id="searchClear" onclick="clearSearch()">✕</button>
+    </div>
+  </div>
 
   <main id="view"></main>
 
   <nav class="tabbar">
     <a href="#home" data-tab="home">首页</a>
     <a href="#orders" data-tab="orders">订单</a>
-    <a href="#cart" data-tab="cart">购物车</a>
+    <a href="#cart" data-tab="cart">购物袋</a>
     <a href="#admin" data-tab="admin">后台</a>
   </nav>
 </div>
